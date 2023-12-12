@@ -19,6 +19,10 @@
 SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS people;
 DROP TABLE IF EXISTS skills;
+DROP TABLE IF EXISTS peopleskills;
+DROP TABLE IF EXISTS peoplesrole;
+DROP TABLE IF EXISTS roles;
+
 # ... 
 SET FOREIGN_KEY_CHECKS=1;
 
@@ -91,21 +95,27 @@ VALUES
 (3, 'Person 3', 'Charlie', 'charlie@email.com', 'linkedin.com/charlie', 'headshots.com/charlie', 'Charlie#9101', 'Tech enthusiast and coffee lover!', NOW()),
 (4, 'Person 4', 'Diana', 'diana@email.com', 'linkedin.com/diana', 'headshots.com/diana', 'Diana#2345', 'Art and travel make life worthwhile!', NOW()),
 (5, 'Person 5', 'Eve', 'eve@email.com', 'linkedin.com/eve', 'headshots.com/eve', 'Eve#6789', 'Fitness freak and bookworm!', NOW()),
-(6, 'Person 6', 'Frank', 'frank@email.com', 'linkedin.com/frank', 'headshots.com/frank', 'Frank#3456', 'Film buff and amateur chef!', NOW());
-
+(6, 'Person 6', 'Frank', 'frank@email.com', 'linkedin.com/frank', 'headshots.com/frank', 'Frank#3456', 'Film buff and amateur chef!', NOW()),
+(7, 'Person 7', 'Grace', 'grace@email.com', 'linkedin.com/grace', 'headshots.com/grace', 'Grace#7890', 'Nature lover and yoga enthusiast!', NOW()),
+(8, 'Person 8', 'Henry', 'henry@email.com', 'linkedin.com/henry', 'headshots.com/henry', 'Henry#1234', 'Software developer and avid reader!', NOW()),
+(9, 'Person 9', 'Isabella', 'isabella@email.com', 'linkedin.com/isabella', 'headshots.com/isabella', 'Isabella#5678', 'Art and music inspire me!', NOW()),
+(10, 'Person 10', 'Jack', 'jack@email.com', 'linkedin.com/jack', 'headshots.com/jack', 'Jack#9101', 'Adventure seeker and photography enthusiast!', NOW()),
+(11, 'Person 11', 'Katherine', 'katherine@email.com', 'linkedin.com/katherine', 'headshots.com/katherine', 'Katherine#2345', 'Fashion lover and DIY enthusiast!', NOW());
 
 
 # Section 6
-# Create peopleskills( id, skills_id, people_id, date_acquired )
+# Create peopleskills( id, skill_id, people_id, date_acquired )
 # None of the fields can ba NULL. ID can be auto_increment.
 
 CREATE TABLE peopleskills (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    skills_id INT NOT NULL,
+    id INT AUTO_INCREMENT,
+    PRIMARY KEY(id),
+    skill_id INT NOT NULL,
     people_id INT NOT NULL,
-    date_acquired DATETIME NOT NULL,
-    FOREIGN KEY (skills_id) REFERENCES skills(skill_id),
-    FOREIGN KEY (people_id) REFERENCES people(people_id)
+    date_acquired DATE default (current_date),
+    FOREIGN KEY (skill_id) REFERENCES skills(skill_id) on delete cascade,
+    FOREIGN KEY (people_id) REFERENCES people(people_id),
+    unique (skill_id,people_id)
 );
 
 
@@ -125,38 +135,36 @@ CREATE TABLE peopleskills (
 # Note that no one has yet acquired skills 7 and 8.
 
 -- Inserting records for people and their associated skills
-INSERT INTO peopleskills (skills_id, people_id, date_acquired) VALUES
--- Person 1
-(1, 1, NOW()), (3, 1, NOW()), (6, 1, NOW()),
-
--- Person 2
-(3, 2, NOW()), (4, 2, NOW()), (5, 2, NOW()),
-
--- Person 3
-(1, 3, NOW()), (5, 3, NOW()),
-
--- Person 4 (No skills)
-
--- Person 5
-(3, 5, NOW()), (6, 5, NOW()),
-
--- Person 6
-(2, 6, NOW()), (3, 6, NOW()), (4, 6, NOW()),
-
--- Person 7
-(3, 7, NOW()), (5, 7, NOW()), (6, 7, NOW()),
-
--- Person 8
-(1, 8, NOW()), (3, 8, NOW()), (5, 8, NOW()), (6, 8, NOW()),
-
--- Person 9
-(2, 9, NOW()), (5, 9, NOW()), (6, 9, NOW()),
-
--- Person 10
-(1, 10, NOW()), (4, 10, NOW()), (5, 10, NOW());
+INSERT INTO peopleskills (people_id,skill_id, date_acquired) VALUES
+    (1,1, '2022-08-19'),
+    (1,3, '2022-02-11'),
+    (1,6, '2023-02-14'),
+    (2,3, '2022-01-09'),
+    (2,4, '2018-12-12'),
+    (2,5, '2021-08-19'),
+    (3,1, '2022-07-21'),
+    (3,5, '2020-01-02'),
+    (5,3, '2019-08-04'),
+    (5,6, '2020-04-19'),
+    (6,2, '2016-12-22'),
+    (6,3, '2022-08-19'),
+    (6,4, '2022-08-18'),
+    (7,3, '2017-06-12'),
+    (7,5, '2011-04-19'),
+    (7,6, '2023-08-07'),
+    (8,1, '2022-08-19'),
+    (8,3, '2021-08-19'),
+    (8,5, '2022-08-09'),
+    (8,6, '2022-08-19'),
+    (9,2, '2018-05-19'),
+    (9,5, '2022-08-20'),
+    (9,6, '2022-05-19'),
+    (10,1,'2017-02-09'),
+    (10,4, '2022-08-17'),
+    (10,5, '2023-04-19');
 
  
-
+ 
 # Section 8
 # Create roles( id, name, sort_priority )
 # sort_priority is an integer and is used to provide an order for sorting roles
