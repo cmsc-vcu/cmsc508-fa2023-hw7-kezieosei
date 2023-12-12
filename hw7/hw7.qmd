@@ -1,6 +1,6 @@
 ---
 title: Homework 7 - Creating a resume database
-author: (your name goes here!)
+author: Kezie Osei
 date: last-modified
 format:
     html:
@@ -98,20 +98,7 @@ except Exception as e:
 
 (add a description of the diagram and what the reader is seeing.)
 
-```{mermaid}
-%%| echo: false
-erDiagram
-    CUSTOMER ||--o{ ORDER : places
-    CUSTOMER }|..|{ DELIVERY-ADDRESS : uses
-    CUSTOMER{
-        int id
-        string first_name
-        string last_name
-    }
-    DELIVERY-ADDRESS {
-        int id
-    }
-```
+
 
 ## Examples of data in the database
 
