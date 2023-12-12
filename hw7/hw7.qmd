@@ -10,16 +10,7 @@ format:
         code-copy: true
 ---
 
-* Skills: Storing unique IDs, names, descriptions, URLs for skill-related resources, and time commitments.
 
-* People: Holding employee details such as IDs, names, contact information (email, LinkedIn), headshots, Discord handles, brief bios, and join dates.
-
-* PeopleSkills: Linking skills to employees with acquisition dates and anticipated skill acquisition dates.
-Roles: Defining various roles within the company, each with an ID, name, and sort priority.
-
-* PeopleRoles: Associating employees with roles, tracking the date of role assignments.
-
-This structure allows for efficient tracking, mapping, and utilization of employee skills and roles within the organization, facilitating targeted skill assessments, identifying skill gaps, and informing strategic decisions. The database, with its interlinked tables, provides a robust framework for generating reports and insights crucial for enhancing the company's operational efficiency and growth.
 
 GITHUB URL:  <https://github.com/cmsc-vcu/cmsc508-fa2023-hw7-kezieosei>
 
@@ -99,13 +90,50 @@ except Exception as e:
 
 ## Overview and description
 
-(briefly describe the project and the database)
+* Skills: Storing unique IDs, names, descriptions, URLs for skill-related resources, and time commitments.
+
+* People: Holding employee details such as IDs, names, contact information (email, LinkedIn), headshots, Discord handles, brief bios, and join dates.
+
+* PeopleSkills: Linking skills to employees with acquisition dates and anticipated skill acquisition dates.
+Roles: Defining various roles within the company, each with an ID, name, and sort priority.
+
+* PeopleRoles: Associating employees with roles, tracking the date of role assignments.
+
+This structure allows for efficient tracking, mapping, and utilization of employee skills and roles within the organization, facilitating targeted skill assessments, identifying skill gaps, and informing strategic decisions. The database, with its interlinked tables, provides a robust framework for generating reports and insights crucial for enhancing the company's operational efficiency and growth.
 
 ## Crows-foot diagram
 
-(add a description of the diagram and what the reader is seeing.)
+```{mermaid}
+%%| echo: false
+erDiagram
+    People }o--o{ Skills : have
+    People }|--o{ Roles : in
+    People{
+        int people_id
+        string people_first_name
+        string people_last_name
+        string people_email
+        string people_linkedin_url
+        string people_headshot_url
+        string people_discord_handle
+        string people_brief_bio
+        date people_date_joined
+    }
+    Skills {
+        int skill_id
+        string skill_name
+        string skill_description
+        string skill_tag
+        string skill_url
+        int skill_timecommit
+    }
+    Roles{
+        int id
+        string rname
+        int sort_priority
+    }
 
-
+```
 
 ## Examples of data in the database
 
